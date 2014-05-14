@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'weebly'
+require 'commander/import'
+
+weebly = Weebly::Weebly.new
+
+program :version, '0.0.1'
+program :description, 'Makes development of Weebly themes sane and simple'
+program :help, 'Author', 'Joshua Beitler <joshbeitler@gmail.com>'
+
+command :new do |c|
+  c.syntax      = 'weebly new <name>'
+  c.description = 'Creates a new structured Weebly site'  
+
+  c.action do |args, options|
+    Weebly::Weebly.create_site(args.first)
+  end
+end
+
+command :build do |c|
+  c.syntax      = 'weebly build'
+  c.description = 'Compiles site structure and zips'
+
+  c.action do |args, options|
+    # ...
+  end
+end
+
+command :validate do |c|
+  c.syntax      = 'weebly validate'
+  c.description = 'Ensures that project conforms to Weebly guidelines'
+
+  c.action do |args, options|
+    # ...
+  end
+end
