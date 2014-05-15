@@ -10,7 +10,7 @@ in a sane and (mostly) trouble-free environment.
 
 ## Installation
 ```
-    $ gem install weebly
+$ gem install weebly
 ```
 
 ## Usage
