@@ -1,4 +1,4 @@
-# Weebly
+# Weebly [![Gem Version](https://badge.fury.io/rb/weebly.svg)](http://badge.fury.io/rb/weebly) [![Dependency Status](https://gemnasium.com/joshbeitler/weebly.svg)](https://gemnasium.com/joshbeitler/weebly)
 
 Sometimes, Weebly is a nice option to use for client websites when you simply
 want to get something done quickly, or for situations in which you want to
