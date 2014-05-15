@@ -32,21 +32,21 @@ in a browser.
 
 ## Commands
 
-### `weebly new <sitename>`
+#### `weebly new <sitename>`
 Will create a new site in the current directory with the name `sitename`.
 This site will include a basic directory structure, with places for CSS, JS,
 HTML layouts, and images.
 
-### `weebly build`
+#### `weebly build`
 When run from a directory containing a site (eg: `sites/hello`, where `hello`
 is the Weebly site`), this command will validate, clean up, and compress your
 site to be Weebly-ready.
 
-### `weebly validate`
+#### `weebly validate`
 Will validate your site to ensure that it conforms to Weebly's standards.  
 (Searches for template tags, directory structure, etc.)
 
-### `weebly server`
+#### `weebly server`
 Will run your site on a local webserver (defaults to `localhost:8000`) and
 emulate the Weebly environment.  Note: *simply opening `index.html` in your
 web browser is not good practice, and will not even work in this case.
