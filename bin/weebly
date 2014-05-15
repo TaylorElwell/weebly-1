@@ -12,8 +12,11 @@ command :new do |c|
   c.syntax      = 'weebly new <name>'
   c.description = 'Creates a new structured Weebly site'  
 
+  c.option '--jquery', nil, 'Includes Jquery in the generated project'
+  c.option '--scss', nil, 'Includes SCSS support in the generated project'
+
   c.action do |args, options|
-    Weebly::Weebly.create_site(args.first)
+    Weebly::Weebly.create_site(args.first, options)
   end
 end
 
@@ -31,6 +34,15 @@ command :validate do |c|
   c.description = 'Ensures that project conforms to Weebly guidelines'
 
   c.action do |args, options|
-    # ...
+    Weebly::Weebly.validate_site
+  end
+end
+
+command :server do |c|
+  c.syntax      = 'weebly serve'
+  c.description = 'Launches a local web server for the current site'
+
+  c.action do |args, options|
+    Weebly::Weebly.serve_site
   end
 end

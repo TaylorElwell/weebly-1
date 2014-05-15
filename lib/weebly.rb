@@ -1,18 +1,21 @@
 require 'weebly/version'
 require 'zip'
+require 'webrick'
+require 'colorize'
+require 'listen'
 
 module Weebly
   class Weebly
-    def self.create_site(dirname)
+    def self.create_site(dirname, opts)
       if dirname == nil || dirname.length < 1
-        puts '=> Error: No name provided'
+        puts '=> Error: No name provided'.colorize(:red)
         return
       end
 
       begin
         Dir.mkdir dirname
       rescue
-        puts "=> Error: Directory `#{dirname}` already exists"
+        puts "=> Error: Directory `#{dirname}` already exists".colorize(:red)
       end
  
       FileUtils::mkdir_p ["#{dirname}/css", "#{dirname}/js", "#{dirname}/img"]
@@ -23,17 +26,24 @@ module Weebly
         "#{dirname}/.gitignore",
         "#{dirname}/README.md",
         "#{dirname}/AUTHORS.md"])
+
       system("cd #{dirname} && git init")
 
-      puts "=> Created site `#{dirname}` successfully"
+      puts "=> Created site `#{dirname}` successfully".colorize(:green)
     end
 
     def self.build_site
       puts "=> Building site..."
 
+      if self.validate_site
+        puts "==> Site conforms".colorize(:green)
+      else
+        exit
+      end
+
       if ! File.exist?("index.html")
-        puts "=> Error: Not a Weebly site"
-        return
+        puts "=> Error: Not a Weebly site".colorize(:red)
+        exit
       end
 
       dirname = File.split(Dir.getwd)[-1]
@@ -49,13 +59,52 @@ module Weebly
 
       Zip::File.open("bin/#{dirname}.zip", Zip::File::CREATE) do |zip|
         Dir["/tmp/#{dirname}/*"].each do |f|
-          puts "==> #{File.basename(f)}"
+          puts "==> #{File.basename(f)}".colorize(:green)
           zip.add(File.basename(f), f)
         end
       end
 
       FileUtils.rmdir("/tmp/#{dirname}")
-      puts "=> Done"
+      puts "=> Done".colorize(:green)
+    end
+
+    def self.validate_site
+      if ! File.exist?("index.html")
+        puts "=> Error: Not a Weebly site".colorize(:red)
+        return
+      end
+
+      Dir.new('.').each do |f|
+        if File.directory?(f) || File.extname(f) != '.html'
+          next
+        end
+       
+        ret = true
+
+        if ! File.readlines(f).grep(/{content}/).any?
+          puts "==> Error: `#{File.basename(f)}` does not have a content tag".colorize(:red)
+          ret = false
+        elsif ! File.readlines(f).grep(/{footer}/).any?
+          puts "==> Error: `#{File.basename(f)}` does not have a footer tag".colorize(:red)
+          ret = false
+        elsif ! File.readlines(f).grep(/{menu}/).any?
+          puts "==> Warning: `#{File.basename(f)}` does not have a menu tag".colorize(:red)
+          ret = false
+        end
+      end
+    end
+
+    def self.serve_site
+      if ! File.exist?("index.html")
+        puts "=> Error: Not a Weebly site".colorize(:red)
+        return
+      end
+
+      spath   = "/tmp/#{File.split(Dir.getwd)[-1]}/"
+      server  = WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => spath)
+      
+      trap 'INT' do server.shutdown end
+      server.start
     end
   end
 end
