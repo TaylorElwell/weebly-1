@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Weebly : (Unofficial) Makes Weebly theme development easier" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Weebly</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/joshbeitler/weebly">View on GitHub</a>
+
+          <h1 id="project_title">Weebly</h1>
+          <h2 id="project_tagline">(Unofficial) Makes Weebly theme development easier</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/joshbeitler/weebly/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/joshbeitler/weebly/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>Sometimes, Weebly is a nice option to use for client websites when you simply
+want to get something done quickly, or for situations in which you want to
+allow your client to easily edit their site.</p>
+
+<p>Unfortunately, Weebly's developer experience is quite poor, and has many odd
+and strange requirements.  This simple gem allows you to develop your theme
+in a sane and (mostly) trouble-free environment.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<pre><code>$ gem install weebly
+</code></pre>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h3>
+<a name="referencing-resources" class="anchor" href="#referencing-resources"><span class="octicon octicon-link"></span></a>Referencing resources</h3>
+
+<p>When referencing resources in your site (eg: <code>href</code>, <code>src</code> attributes), you
+<em>cannot include the full path!</em> Instead, simply include the file name, and
+it will be found when the site is built.  For this reason, you will want to
+test your site by running <code>weebly server</code>, and not opening your files directly
+in a browser.</p>
+
+<div class="highlight highlight-html"><pre><span class="c">&lt;!-- Wrong.  Do not do this! --&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"css/master.css"</span><span class="nt">&gt;</span>
+
+<span class="c">&lt;!-- Correct.  Please do this instead. --&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"master.css"</span><span class="nt">&gt;</span>
+</pre></div>
+
+<h2>
+<a name="commands" class="anchor" href="#commands"><span class="octicon octicon-link"></span></a>Commands</h2>
+
+<h4>
+<a name="weebly-new-sitename" class="anchor" href="#weebly-new-sitename"><span class="octicon octicon-link"></span></a><code>weebly new &lt;sitename&gt;</code>
+</h4>
+
+<p>Will create a new site in the current directory with the name <code>sitename</code>.
+This site will include a basic directory structure, with places for CSS, JS,
+HTML layouts, and images.</p>
+
+<h4>
+<a name="weebly-build" class="anchor" href="#weebly-build"><span class="octicon octicon-link"></span></a><code>weebly build</code>
+</h4>
+
+<p>When run from a directory containing a site (eg: <code>sites/hello</code>, where <code>hello</code>
+is the Weebly site`), this command will validate, clean up, and compress your
+site to be Weebly-ready.</p>
+
+<h4>
+<a name="weebly-validate" class="anchor" href="#weebly-validate"><span class="octicon octicon-link"></span></a><code>weebly validate</code>
+</h4>
+
+<p>Will validate your site to ensure that it conforms to Weebly's standards.<br>
+(Searches for template tags, directory structure, etc.)</p>
+
+<h4>
+<a name="weebly-server" class="anchor" href="#weebly-server"><span class="octicon octicon-link"></span></a><code>weebly server</code>
+</h4>
+
+<p>Will run your site on a local webserver (defaults to <code>localhost:8000</code>) and
+emulate the Weebly environment.  Note: *simply opening <code>index.html</code> in your
+web browser is not good practice, and will not even work in this case.</p>
+
+<h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<ol>
+<li>Fork it (<a href="http://github.com/joshbeitler/weebly/fork">http://github.com/joshbeitler/weebly/fork</a>)</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<pre><code>Copyright 2014 Joshua Beitler
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Weebly maintained by <a href="https://github.com/joshbeitler">joshbeitler</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
