@@ -2,14 +2,13 @@ require 'weebly/version'
 require 'zip'
 require 'webrick'
 require 'colorize'
-require 'listen'
 
 module Weebly
   class Weebly
     def self.create_site(dirname, opts)
       if dirname == nil || dirname.length < 1
         puts '=> Error: No name provided'.colorize(:red)
-        return
+        exit
       end
 
       begin
@@ -35,7 +34,7 @@ module Weebly
     def self.build_site
       puts "=> Building site..."
 
-      if self.validate_site
+      if self.validate_site == true
         puts "==> Site conforms".colorize(:green)
       else
         exit
@@ -47,9 +46,8 @@ module Weebly
       end
 
       dirname = File.split(Dir.getwd)[-1]
-      FileUtils.rmdir("/tmp/#{dirname}") if File.directory?("/tmp/#{dirname}")
-      FileUtils.rmdir("#bin") if File.directory?("#bin")
-      FileUtils.rm("#{dirname}.zip") if File.exist?("#{dirname}.zip")
+      FileUtils.rm_rf("/tmp/#{dirname}") if File.directory?("/tmp/#{dirname}")
+      FileUtils.rm_rf("bin") if File.directory?("bin")
       FileUtils.mkdir_p ["/tmp/#{dirname}", "bin"]
       
       FileUtils.cp(Dir["js/**/*"], "/tmp/#{dirname}/")
@@ -71,33 +69,31 @@ module Weebly
     def self.validate_site
       if ! File.exist?("index.html")
         puts "=> Error: Not a Weebly site".colorize(:red)
-        return
+        return false
       end
 
       Dir.new('.').each do |f|
-        if File.directory?(f) || File.extname(f) != '.html'
-          next
-        end
-       
-        ret = true
+        next if File.directory?(f) || File.extname(f) != '.html'
 
         if ! File.readlines(f).grep(/{content}/).any?
           puts "==> Error: `#{File.basename(f)}` does not have a content tag".colorize(:red)
-          ret = false
+          return false
         elsif ! File.readlines(f).grep(/{footer}/).any?
           puts "==> Error: `#{File.basename(f)}` does not have a footer tag".colorize(:red)
-          ret = false
+          return false
         elsif ! File.readlines(f).grep(/{menu}/).any?
-          puts "==> Warning: `#{File.basename(f)}` does not have a menu tag".colorize(:red)
-          ret = false
+          puts "==> Warning: `#{File.basename(f)}` does not have a menu tag".colorize(:yellow)
+          return true
         end
       end
+
+      return true
     end
 
     def self.serve_site
       if ! File.exist?("index.html")
         puts "=> Error: Not a Weebly site".colorize(:red)
-        return
+        exit
       end
 
       spath   = "/tmp/#{File.split(Dir.getwd)[-1]}/"
