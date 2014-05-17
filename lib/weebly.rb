@@ -96,6 +96,8 @@ module Weebly
         exit
       end
 
+      self.build
+
       spath   = "/tmp/#{File.split(Dir.getwd)[-1]}/"
       server  = WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => spath)
       
