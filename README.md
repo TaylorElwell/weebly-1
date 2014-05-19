@@ -42,7 +42,7 @@ HTML layouts, and images.
 
 #### `weebly build [-b]`
 When run from a directory containing a site (eg: `sites/hello`, where `hello`
-is the Weebly site`), this command will validate, clean up, and compress your
+is the Weebly site), this command will validate, clean up, and compress your
 site to be Weebly-ready.  Supplying the `-n` flag will skip any validation checks that the gem might perform prior to a build.
 
 #### `weebly validate`
