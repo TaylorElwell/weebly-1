@@ -24,8 +24,10 @@ command :build do |c|
   c.syntax      = 'weebly build'
   c.description = 'Compiles site structure and zips'
 
+  c.option '-n', nil, 'Skips site correctness checks'
+
   c.action do |args, options|
-    Weebly::Weebly.build_site
+    Weebly::Weebly.build_site(options)
   end
 end
 

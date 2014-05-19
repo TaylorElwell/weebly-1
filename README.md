@@ -37,10 +37,10 @@ Will create a new site in the current directory with the name `sitename`.
 This site will include a basic directory structure, with places for CSS, JS,
 HTML layouts, and images.
 
-#### `weebly build`
+#### `weebly build <build_options>`
 When run from a directory containing a site (eg: `sites/hello`, where `hello`
 is the Weebly site`), this command will validate, clean up, and compress your
-site to be Weebly-ready.
+site to be Weebly-ready.  Supplying the `-n` flag will skip any validation checks that the gem might perform prior to a build.
 
 #### `weebly validate`
 Will validate your site to ensure that it conforms to Weebly's standards.  

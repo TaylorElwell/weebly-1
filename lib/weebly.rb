@@ -22,22 +22,26 @@ module Weebly
         "#{dirname}/css/main_style.css", 
         "#{dirname}/js/#{dirname}.js",
         "#{dirname}/index.html",
+        "#{dirname}/splash.html",
+        "#{dirname}/no-header.html",
+        "#{dirname}/landing.html",
         "#{dirname}/.gitignore",
         "#{dirname}/README.md",
         "#{dirname}/AUTHORS.md"])
-
-      system("cd #{dirname} && git init")
+      system("cd #{dirname} && git init > /dev/null 2>&1")
 
       puts "=> Created site `#{dirname}` successfully".colorize(:green)
     end
 
-    def self.build_site
+    def self.build_site(buildopts)
       puts "=> Building site..."
 
-      if self.validate_site == true
-        puts "==> Site conforms".colorize(:green)
-      else
-        exit
+      if ! buildopts.n
+        if self.validate_site == true
+          puts "==> Site conforms".colorize(:green)
+        else
+          exit
+        end
       end
 
       if ! File.exist?("index.html")
@@ -78,17 +82,24 @@ module Weebly
       Dir.new('.').each do |f|
         next if File.directory?(f) || File.extname(f) != '.html'
 
-        if ! File.readlines(f).grep(/{content}/).any?
-          errors  << "==> Error: `#{File.basename(f)}` does not have a content tag".colorize(:red)
-          success = false
+        if ! self.validate_tag(/{content}/, f)
+          errors << "==> Error: `#{File.basename(f)}` does not have a content tag"
+            .colorize(:red)
         end
-        if ! File.readlines(f).grep(/{footer}/).any?
-          errors  << "==> Error: `#{File.basename(f)}` does not have a footer tag".colorize(:red)
-          success = false
+
+        if ! self.validate_tag(/{footer}/, f)
+          errors << "==> Error: `#{File.basename(f)}` does not have a footer tag"
+            .colorize(:red)
         end
-        if ! File.readlines(f).grep(/{menu}/).any?
-          errors  << "==> Warning: `#{File.basename(f)}` does not have a menu tag".colorize(:yellow)
-          success = true
+
+        if ! self.validate_tag(/{title}/, f)
+          errors << "==> Error: `#{File.basename(f)}` does not have a title tag"
+            .colorize(:red)
+        end
+
+        if ! self.validate_tag(/{menu}/, f)
+          errors << "==> Error: `#{File.basename(f)}` does not have a menu tag"
+            .colorize(:red)
         end
       end
 
@@ -109,6 +120,11 @@ module Weebly
       
       trap 'INT' do server.shutdown end
       server.start
+    end
+
+    def self.validate_tag(tag, file)
+      return false if ! File.readlines(file).grep(tag).any?
+      return true
     end
   end
 end
