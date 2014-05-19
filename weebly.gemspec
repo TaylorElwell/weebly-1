@@ -24,5 +24,4 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "commander"
   spec.add_runtime_dependency "rubyzip"
   spec.add_runtime_dependency "colorize"
-  spec.add_runtime_dependency "listen", "~> 2.0"
 end
