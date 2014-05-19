@@ -30,6 +30,9 @@ in a browser.
 <link rel="stylesheet" href="master.css">
 ```
 
+### Weebly site structure
+When a new site is created using the Weebly gem, several HTML files are created, each of which corrosponds to the applicable layout as used by Weebly.  `index.html` is the default layout, and is the only required one.  It is helpful to include layouts for the other page-types as well, however, as it increases the flexibility of the theme.
+
 ## Commands
 
 #### `weebly new <sitename>`
@@ -37,7 +40,7 @@ Will create a new site in the current directory with the name `sitename`.
 This site will include a basic directory structure, with places for CSS, JS,
 HTML layouts, and images.
 
-#### `weebly build <build_options>`
+#### `weebly build [-b]`
 When run from a directory containing a site (eg: `sites/hello`, where `hello`
 is the Weebly site`), this command will validate, clean up, and compress your
 site to be Weebly-ready.  Supplying the `-n` flag will skip any validation checks that the gem might perform prior to a build.
