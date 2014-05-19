@@ -72,22 +72,28 @@ module Weebly
         return false
       end
 
+      errors  = []
+      success = true
+
       Dir.new('.').each do |f|
         next if File.directory?(f) || File.extname(f) != '.html'
 
         if ! File.readlines(f).grep(/{content}/).any?
-          puts "==> Error: `#{File.basename(f)}` does not have a content tag".colorize(:red)
-          return false
-        elsif ! File.readlines(f).grep(/{footer}/).any?
-          puts "==> Error: `#{File.basename(f)}` does not have a footer tag".colorize(:red)
-          return false
-        elsif ! File.readlines(f).grep(/{menu}/).any?
-          puts "==> Warning: `#{File.basename(f)}` does not have a menu tag".colorize(:yellow)
-          return true
+          errors  << "==> Error: `#{File.basename(f)}` does not have a content tag".colorize(:red)
+          success = false
+        end
+        if ! File.readlines(f).grep(/{footer}/).any?
+          errors  << "==> Error: `#{File.basename(f)}` does not have a footer tag".colorize(:red)
+          success = false
+        end
+        if ! File.readlines(f).grep(/{menu}/).any?
+          errors  << "==> Warning: `#{File.basename(f)}` does not have a menu tag".colorize(:yellow)
+          success = true
         end
       end
 
-      return true
+      puts errors if errors.length > 0
+      return success
     end
 
     def self.serve_site
